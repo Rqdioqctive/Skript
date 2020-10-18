@@ -1,0 +1,17 @@
+#configurable options
+options:
+    success: &aSuccessful transaction. #success message
+    failure: &cInsufficient funds. #failure message
+    rank: {rank::%player's uuid%} #rank
+    balance: {balance::%player's uuid%} #money
+    formula: 1000*({rank::%player's uuid%}+1) #price formula
+
+#command
+commmand /rankup:
+    trigger:
+        if {@balance} >= {@formula}:
+            remove {@formula} from {@balance}
+            set {@rank} to last character of (first (index of {@rank} in "abcdefghijklmnopqrstuvwxyz"}) + 1 characters of "abcdefghijklmnopqrstuvwxyz") #rehashed code from functions file
+            send "{@success}"
+        else:
+            send "{@failure}"
